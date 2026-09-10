@@ -1,198 +1,225 @@
 import { useState } from "react";
 import {
   ArrowLeft,
-  ArrowRight,
-  UserRound,
-  Phone,
   CheckCircle,
-  HelpCircle,
+  FileText,
+  Smartphone,
 } from "lucide-react";
 
+import Button from "../components/Button";
 import Card from "../components/Card";
 import Alert from "../components/Alert";
-import Button from "../components/Button";
 
 export default function OwnershipPage({
   onBack,
   onComplete,
-  onNavigate,
 }) {
-  const [selectedAction, setSelectedAction] =
-    useState(null);
-
-  const [submitted, setSubmitted] =
-    useState(false);
-
-  const actions = [
-    {
-      id: "ownership",
-      title: "Ownership changed",
-      description:
-        "The vehicle has been transferred to a new owner.",
-      icon: UserRound,
-    },
-    {
-      id: "contact",
-      title: "Contact number changed",
-      description:
-        "The contact number previously associated with the service is no longer available.",
-      icon: Phone,
-    },
-  ];
+  const [changeType, setChangeType] = useState("");
+  const [completed, setCompleted] = useState(false);
 
   function continueFlow() {
-    if (!selectedAction) return;
+    if (!changeType) return;
 
-    setSubmitted(true);
+    setCompleted(true);
   }
 
-  if (submitted) {
+  if (completed) {
+    const isOwnership = changeType === "ownership";
+
     return (
       <div className="page">
-        <div className="success-page">
-          <div className="success-icon">
-            <CheckCircle size={42} />
-          </div>
+        <button
+          className="back-button"
+          onClick={onBack}
+        >
+          <ArrowLeft size={20} />
+          Back
+        </button>
+
+        <div className="success-state">
+          <CheckCircle size={60} />
 
           <h1>
-            Next steps
+            {isOwnership
+              ? "Ownership change"
+              : "Contact number change"}
           </h1>
 
           <p>
-            Based on your selected situation, the
-            prototype recommends following the
-            applicable re-registration or support
-            guidance.
+            Your selected recovery path has been
+            demonstrated in this prototype.
           </p>
-
-          <Alert type="info">
-            <strong>
-              Prototype guidance
-            </strong>
-
-            <p>
-              The internal resolution process is not
-              represented because it has not been
-              established through primary research.
-            </p>
-          </Alert>
-
-          <Button
-            fullWidth
-            onClick={onComplete}
-          >
-            Return to home
-          </Button>
         </div>
+
+        <Card>
+          <h2>Next steps</h2>
+
+          {isOwnership ? (
+            <div className="recovery-list">
+              <div className="recovery-item">
+                <FileText size={20} />
+
+                <div>
+                  <strong>
+                    Confirm your updated vehicle details
+                  </strong>
+
+                  <p>
+                    Use the applicable registration and
+                    ownership information required by the
+                    service.
+                  </p>
+                </div>
+              </div>
+
+              <div className="recovery-item">
+                <CheckCircle size={20} />
+
+                <div>
+                  <strong>
+                    Continue with re-registration
+                  </strong>
+
+                  <p>
+                    The prototype represents the updated
+                    registration path before returning to
+                    the Fuel Pass.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="recovery-list">
+              <div className="recovery-item">
+                <Smartphone size={20} />
+
+                <div>
+                  <strong>
+                    Verify your new contact number
+                  </strong>
+
+                  <p>
+                    Follow the applicable verification
+                    process for your updated number.
+                  </p>
+                </div>
+              </div>
+
+              <div className="recovery-item">
+                <CheckCircle size={20} />
+
+                <div>
+                  <strong>
+                    Continue with account recovery
+                  </strong>
+
+                  <p>
+                    Complete the required steps before
+                    returning to your Fuel Pass.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </Card>
+
+        <Alert
+          type="info"
+          title="Prototype guidance"
+        >
+          The exact backend validation and recovery
+          workflow are not implemented in this prototype.
+        </Alert>
+
+        <Button
+          fullWidth
+          onClick={onComplete}
+        >
+          Return to Fuel Pass
+        </Button>
       </div>
     );
   }
 
   return (
     <div className="page">
-      <div className="flow-header">
-        <button
-          className="icon-button"
-          onClick={onBack}
-          aria-label="Go back"
-        >
-          <ArrowLeft size={21} />
-        </button>
+      <button
+        className="back-button"
+        onClick={onBack}
+      >
+        <ArrowLeft size={20} />
+        Back
+      </button>
 
-        <div>
-          <span className="label">
-            Vehicle & registration
-          </span>
-        </div>
-      </div>
+      <div className="page-header">
+        <span className="prototype-label">
+          RECOVERY
+        </span>
 
-      <div className="flow-title">
-        <h1>
-          What has changed?
-        </h1>
+        <h1>What has changed?</h1>
 
         <p>
-          Select the situation that best describes
-          your problem.
+          Choose the situation that best describes your
+          account.
         </p>
       </div>
 
-      <section>
-        <Card>
-          <div className="selection-list">
-            {actions.map((action) => {
-              const Icon = action.icon;
-
-              const selected =
-                selectedAction === action.id;
-
-              return (
-                <button
-                  key={action.id}
-                  className={
-                    selected
-                      ? "selection-card selected"
-                      : "selection-card"
-                  }
-                  onClick={() =>
-                    setSelectedAction(action.id)
-                  }
-                >
-                  <div className="selection-icon">
-                    <Icon size={22} />
-                  </div>
-
-                  <div>
-                    <strong>
-                      {action.title}
-                    </strong>
-
-                    <span>
-                      {action.description}
-                    </span>
-                  </div>
-
-                  <span className="selection-radio">
-                    {selected ? "✓" : ""}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </Card>
-      </section>
-
-      <section>
-        <Alert type="info">
-          <strong>
-            Need more help?
-          </strong>
-
-          <p>
-            If you cannot determine which option
-            applies to you, use the support guidance
-            instead of repeatedly submitting
-            information.
-          </p>
-
-          <button
-            className="text-action"
-            onClick={() => onNavigate("help")}
-          >
-            <HelpCircle size={18} />
-            View support guidance
-          </button>
-        </Alert>
-      </section>
-
-      <div className="flow-actions">
-        <Button
-          fullWidth
-          onClick={continueFlow}
+      <div className="selection-list">
+        <button
+          className={`selection-card ${
+            changeType === "ownership"
+              ? "selected"
+              : ""
+          }`}
+          onClick={() => setChangeType("ownership")}
         >
-          Continue
-          <ArrowRight size={18} />
-        </Button>
+          <FileText size={24} />
+
+          <div>
+            <strong>Ownership changed</strong>
+
+            <p>
+              The vehicle has a new owner.
+            </p>
+          </div>
+        </button>
+
+        <button
+          className={`selection-card ${
+            changeType === "contact"
+              ? "selected"
+              : ""
+          }`}
+          onClick={() => setChangeType("contact")}
+        >
+          <Smartphone size={24} />
+
+          <div>
+            <strong>Contact number changed</strong>
+
+            <p>
+              You no longer use the number linked to
+              the service.
+            </p>
+          </div>
+        </button>
+      </div>
+
+      <Button
+        fullWidth
+        onClick={continueFlow}
+      >
+        Continue
+      </Button>
+
+      <div className="prototype-notice">
+        <strong>Academic Prototype</strong>
+
+        <p>
+          This flow demonstrates proposed recovery
+          interactions. It does not change real ownership
+          or account information.
+        </p>
       </div>
     </div>
   );

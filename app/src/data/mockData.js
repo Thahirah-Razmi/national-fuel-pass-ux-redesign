@@ -11,7 +11,7 @@ export const allocation = {
 };
 
 export const support = {
-  whatsapp: "076 019 1919",
+  whatsapp: "076 013 9886",
 };
 
 export const history = [

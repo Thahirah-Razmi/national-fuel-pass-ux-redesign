@@ -3,6 +3,8 @@ import { Settings } from "lucide-react";
 
 import AppShell from "./components/AppShell";
 
+import EntryPage from "./pages/EntryPage";
+import SignInPage from "./pages/SignInPage";
 import LanguagePage from "./pages/LanguagePage";
 import RegistrationPage from "./pages/RegistrationPage";
 import HomePage from "./pages/HomePage";
@@ -15,7 +17,7 @@ import HelpPage from "./pages/HelpPage";
 import SettingsPage from "./pages/SettingsPage";
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState("language");
+  const [currentPage, setCurrentPage] = useState("entry");
   const [showSettings, setShowSettings] = useState(false);
 
   function navigate(page) {
@@ -38,6 +40,22 @@ export default function App() {
     }
 
     switch (currentPage) {
+      case "entry":
+        return (
+          <EntryPage
+            onSignIn={() => navigate("signin")}
+            onRegister={() => navigate("language")}
+          />
+        );
+
+      case "signin":
+        return (
+          <SignInPage
+            onBack={() => navigate("entry")}
+            onComplete={() => navigate("home")}
+          />
+        );
+
       case "language":
         return (
           <LanguagePage
@@ -118,6 +136,8 @@ export default function App() {
   }
 
   const hideNavigation =
+    currentPage === "entry" ||
+    currentPage === "signin" ||
     currentPage === "language" ||
     currentPage === "registration";
 

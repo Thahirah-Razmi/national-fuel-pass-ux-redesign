@@ -1,377 +1,302 @@
 import { useState } from "react";
-import {
-  ArrowRight,
-  ArrowLeft,
-  Car,
-  CheckCircle,
-} from "lucide-react";
+import { ArrowLeft, CheckCircle, AlertTriangle } from "lucide-react";
 
+import Button from "../components/Button";
 import Card from "../components/Card";
 import Alert from "../components/Alert";
-import Button from "../components/Button";
 
-export default function RegistrationPage({
-  onBack,
-  onComplete,
-}) {
+export default function RegistrationPage({ onBack, onComplete }) {
   const [step, setStep] = useState(1);
 
-  const [formData, setFormData] = useState({
-    vehicleNumber: "",
-    vehicleCategory: "",
-    identityNumber: "",
-  });
+  const [vehicleNumber, setVehicleNumber] = useState("");
+  const [vehicleCategory, setVehicleCategory] = useState("");
+  const [identityNumber, setIdentityNumber] = useState("");
 
-  const [submitted, setSubmitted] = useState(false);
-
-  function updateField(field, value) {
-    setFormData((previous) => ({
-      ...previous,
-      [field]: value,
-    }));
-  }
+  const [error, setError] = useState("");
 
   function nextStep() {
+    setError("");
+
     if (step === 1) {
-      if (
-        !formData.vehicleNumber.trim() ||
-        !formData.vehicleCategory
-      ) {
+      if (!vehicleNumber.trim()) {
+        setError("Please enter your vehicle number.");
         return;
       }
 
-      setStep(2);
-      return;
+      if (!vehicleCategory) {
+        setError("Please select your vehicle category.");
+        return;
+      }
     }
 
     if (step === 2) {
-      if (!formData.identityNumber.trim()) {
+      if (!identityNumber.trim()) {
+        setError("Please enter your identity document number.");
         return;
       }
-
-      setStep(3);
-      return;
     }
 
-    setSubmitted(true);
+    setStep(step + 1);
   }
 
   function previousStep() {
-    if (step > 1) {
-      setStep(step - 1);
-    } else {
+    setError("");
+
+    if (step === 1) {
       onBack();
+      return;
     }
+
+    setStep(step - 1);
   }
 
-  function finish() {
-    onComplete();
+  function completeRegistration() {
+    setStep(4);
   }
 
-  if (submitted) {
+  if (step === 4) {
     return (
-      <div className="page">
-        <div className="success-page">
-          <div className="success-icon">
-            <CheckCircle size={42} />
-          </div>
+      <div className="flow-page">
+        <div className="success-state">
+          <CheckCircle size={64} />
 
-          <p className="eyebrow">
-            Registration
-          </p>
-
-          <h1>
-            Registration submitted
-          </h1>
+          <h1>Registration submitted</h1>
 
           <p>
-            Your prototype registration has been
-            completed successfully.
+            Your registration has been simulated successfully
+            for this prototype.
           </p>
-
-          <Alert type="info">
-            <strong>
-              Prototype result
-            </strong>
-
-            <p>
-              This result is simulated. No
-              information has been submitted to
-              a government system.
-            </p>
-          </Alert>
-
-          <Button
-            fullWidth
-            onClick={finish}
-          >
-            Continue to home
-          </Button>
         </div>
+
+        <Card>
+          <div className="detail-row">
+            <span>Vehicle</span>
+            <strong>{vehicleNumber}</strong>
+          </div>
+
+          <div className="detail-row">
+            <span>Category</span>
+            <strong>{vehicleCategory}</strong>
+          </div>
+
+          <div className="detail-row">
+            <span>Status</span>
+            <strong>Active</strong>
+          </div>
+        </Card>
+
+        <Alert
+          type="info"
+          title="Prototype simulation"
+        >
+          No real registration has been created. The data
+          shown here is only for demonstrating the proposed
+          user experience.
+        </Alert>
+
+        <Button fullWidth onClick={onComplete}>
+          Continue to Fuel Pass
+        </Button>
       </div>
     );
   }
 
   return (
-    <div className="page">
+    <div className="flow-page">
+      <button
+        className="back-button"
+        onClick={previousStep}
+      >
+        <ArrowLeft size={20} />
+        Back
+      </button>
+
       <div className="flow-header">
-        <button
-          className="icon-button"
-          onClick={previousStep}
-          aria-label="Go back"
-        >
-          <ArrowLeft size={21} />
-        </button>
+        <span className="prototype-label">
+          REGISTRATION
+        </span>
 
-        <div>
-          <span className="label">
-            Step {step} of 3
-          </span>
+        <h1>Register your vehicle</h1>
 
-          <div className="step-progress">
-            <div
-              style={{
-                width: `${(step / 3) * 100}%`,
-              }}
-            />
-          </div>
-        </div>
+        <p>
+          Enter the information needed to set up your
+          Fuel Pass profile.
+        </p>
       </div>
 
+      <div className="step-indicator">
+        <span className={step >= 1 ? "active" : ""}>1</span>
+        <span className={step >= 2 ? "active" : ""}>2</span>
+        <span className={step >= 3 ? "active" : ""}>3</span>
+      </div>
+
+      {error && (
+        <Alert
+          type="warning"
+          title="Check your information"
+        >
+          {error}
+        </Alert>
+      )}
+
       {step === 1 && (
-        <StepOne
-          formData={formData}
-          updateField={updateField}
-        />
+        <Card>
+          <h2>Vehicle information</h2>
+
+          <div className="form">
+            <div className="form-group">
+              <label htmlFor="vehicleNumber">
+                Vehicle number
+              </label>
+
+              <input
+                id="vehicleNumber"
+                value={vehicleNumber}
+                onChange={(e) =>
+                  setVehicleNumber(e.target.value)
+                }
+                placeholder="e.g. ABC-1234"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="vehicleCategory">
+                Vehicle category
+              </label>
+
+              <select
+                id="vehicleCategory"
+                value={vehicleCategory}
+                onChange={(e) =>
+                  setVehicleCategory(e.target.value)
+                }
+              >
+                <option value="">
+                  Select category
+                </option>
+
+                <option value="Motor Car">
+                  Motor Car
+                </option>
+
+                <option value="Motorcycle">
+                  Motorcycle
+                </option>
+
+                <option value="Three Wheeler">
+                  Three Wheeler
+                </option>
+
+                <option value="Van">
+                  Van
+                </option>
+
+                <option value="Motor Lorry">
+                  Motor Lorry
+                </option>
+              </select>
+            </div>
+
+            <Button
+              fullWidth
+              onClick={nextStep}
+            >
+              Continue
+            </Button>
+          </div>
+        </Card>
       )}
 
       {step === 2 && (
-        <StepTwo
-          formData={formData}
-          updateField={updateField}
-        />
+        <Card>
+          <h2>Identity information</h2>
+
+          <p className="card-description">
+            Enter the applicable identity document number
+            for this registration.
+          </p>
+
+          <div className="form">
+            <div className="form-group">
+              <label htmlFor="identityNumber">
+                Identity document number
+              </label>
+
+              <input
+                id="identityNumber"
+                value={identityNumber}
+                onChange={(e) =>
+                  setIdentityNumber(e.target.value)
+                }
+                placeholder="Enter document number"
+              />
+            </div>
+
+            <div className="privacy-warning">
+              <AlertTriangle size={18} />
+
+              <span>
+                Use synthetic information only when
+                demonstrating this academic prototype.
+              </span>
+            </div>
+
+            <Button
+              fullWidth
+              onClick={nextStep}
+            >
+              Continue
+            </Button>
+          </div>
+        </Card>
       )}
 
       {step === 3 && (
-        <StepThree
-          formData={formData}
-        />
+        <Card>
+          <h2>Review registration</h2>
+
+          <div className="review-list">
+            <div className="detail-row">
+              <span>Vehicle number</span>
+              <strong>{vehicleNumber}</strong>
+            </div>
+
+            <div className="detail-row">
+              <span>Category</span>
+              <strong>{vehicleCategory}</strong>
+            </div>
+
+            <div className="detail-row">
+              <span>Identity document</span>
+              <strong>••••••••</strong>
+            </div>
+          </div>
+
+          <Alert
+            type="info"
+            title="Before continuing"
+          >
+            Please check that the information entered is
+            correct.
+          </Alert>
+
+          <Button
+            fullWidth
+            onClick={completeRegistration}
+          >
+            Submit Registration
+          </Button>
+        </Card>
       )}
 
-      <div className="flow-actions">
-        <Button
-          fullWidth
-          onClick={nextStep}
-        >
-          {step === 3
-            ? "Submit registration"
-            : "Continue"}
+      <div className="prototype-notice">
+        <strong>Academic Prototype</strong>
 
-          <ArrowRight size={18} />
-        </Button>
+        <p>
+          Registration is simulated. No real government
+          records are accessed or modified.
+        </p>
       </div>
     </div>
-  );
-}
-
-
-function StepOne({
-  formData,
-  updateField,
-}) {
-  return (
-    <>
-      <div className="flow-title">
-        <div className="flow-icon">
-          <Car size={28} />
-        </div>
-
-        <h1>
-          Add your vehicle
-        </h1>
-
-        <p>
-          Enter the vehicle information required
-          by this prototype.
-        </p>
-      </div>
-
-      <Card>
-        <label className="form-label">
-          Vehicle number
-        </label>
-
-        <input
-          className="form-input"
-          value={formData.vehicleNumber}
-          onChange={(event) =>
-            updateField(
-              "vehicleNumber",
-              event.target.value
-            )
-          }
-          placeholder="Example: ABC-1234"
-        />
-
-        <label className="form-label">
-          Vehicle category
-        </label>
-
-        <select
-          className="form-input"
-          value={formData.vehicleCategory}
-          onChange={(event) =>
-            updateField(
-              "vehicleCategory",
-              event.target.value
-            )
-          }
-        >
-          <option value="">
-            Select category
-          </option>
-
-          <option value="Motor Car">
-            Motor Car
-          </option>
-
-          <option value="Motorcycle">
-            Motorcycle
-          </option>
-
-          <option value="Van">
-            Van
-          </option>
-
-          <option value="Three Wheeler">
-            Three Wheeler
-          </option>
-
-          <option value="Motor Lorry">
-            Motor Lorry
-          </option>
-        </select>
-      </Card>
-    </>
-  );
-}
-
-
-function StepTwo({
-  formData,
-  updateField,
-}) {
-  return (
-    <>
-      <div className="flow-title">
-        <h1>
-          Verification details
-        </h1>
-
-        <p>
-          Provide the applicable identity
-          information for this prototype.
-        </p>
-      </div>
-
-      <Card>
-        <label className="form-label">
-          Identity document number
-        </label>
-
-        <input
-          className="form-input"
-          value={formData.identityNumber}
-          onChange={(event) =>
-            updateField(
-              "identityNumber",
-              event.target.value
-            )
-          }
-          placeholder="Enter document number"
-        />
-
-        <p className="field-help">
-          Use synthetic information when
-          demonstrating this prototype.
-        </p>
-      </Card>
-
-      <Alert type="warning">
-        <strong>
-          Privacy
-        </strong>
-
-        <p>
-          Do not enter your real NIC, passport,
-          OTP, phone number or other sensitive
-          information into this academic prototype.
-        </p>
-      </Alert>
-    </>
-  );
-}
-
-
-function StepThree({ formData }) {
-  return (
-    <>
-      <div className="flow-title">
-        <h1>
-          Review your information
-        </h1>
-
-        <p>
-          Check the information before submitting.
-        </p>
-      </div>
-
-      <Card>
-        <div className="detail-row">
-          <span>
-            Vehicle number
-          </span>
-
-          <strong>
-            {formData.vehicleNumber ||
-              "Not provided"}
-          </strong>
-        </div>
-
-        <div className="detail-row">
-          <span>
-            Vehicle category
-          </span>
-
-          <strong>
-            {formData.vehicleCategory ||
-              "Not provided"}
-          </strong>
-        </div>
-
-        <div className="detail-row">
-          <span>
-            Identity information
-          </span>
-
-          <strong>
-            {formData.identityNumber
-              ? "Provided"
-              : "Not provided"}
-          </strong>
-        </div>
-      </Card>
-
-      <Alert type="info">
-        <strong>
-          Prototype submission
-        </strong>
-
-        <p>
-          Selecting submit will only simulate a
-          successful registration result.
-        </p>
-      </Alert>
-    </>
   );
 }
