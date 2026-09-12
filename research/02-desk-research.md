@@ -65,7 +65,7 @@ Official notices posted on `fuelpass.gic.gov.lk` document structural changes mad
 * **Deactivation Before Number Change:** Users planning to change phone numbers must log into their existing profile via SMS OTP and select **"Delete Profile"** before re-registering under a new mobile number.
 * **Assistance & Dispute Escalation Channels:**
 * Primary helpline: Government Information Center via shortcode `1919`.
-* Technical escalation channel: Dedicated official WhatsApp support desk (`076 019 1919`) handling manual document submissions (NIC, Revenue License, Certificate of Registration) for registration dispute resolution.
+* Technical escalation channel: Dedicated official WhatsApp support desk (`076 013 9886`) handling manual document submissions (NIC, Revenue License, Certificate of Registration) for registration dispute resolution.
 
 
 
@@ -79,7 +79,7 @@ Official notices posted on `fuelpass.gic.gov.lk` document structural changes mad
 * **E-06:** Official registration inputs require Chassis Number matching, case sensitivity, and specific "Sri" plate numerical stripping rules.
 * **E-07:** Multiple vehicle profiles under a single mobile number are permitted exclusively via the Business Registration Number (BRN) pathway using custom institutional codes.
 * **E-08:** The active system includes a self-service profile deletion and vehicle registration transfer override mechanism.
-* **E-09:** Manual registration dispute escalations require document submission (NIC, Revenue License, Registration Certificate) via a dedicated GIC WhatsApp desk (`076 019 1919`) or email.
+* **E-09:** Manual registration dispute escalations require document submission (NIC, Revenue License, Registration Certificate) via a dedicated GIC WhatsApp desk (`076 013 9886`) or email.
 
 **[INFERENCES] (Logical Deductions from Documentation)**
 
@@ -294,7 +294,7 @@ This pass evaluates documented operational conditions, policy mandates, and repo
 
 
 * **E-23 (Current): Documented Deployments of Assisted Messaging Support Channels**
-* *(a) Direct Source Fact:* Government notices document active official WhatsApp support lines (e.g., `0760001919`) dedicated to receiving photos of identity cards and registration certificates for registration assistance.
+* *(a) Direct Source Fact:* Government notices document active official WhatsApp support lines (e.g., `076 013 9886`) dedicated to receiving photos of identity cards and registration certificates for registration assistance.
 * *(b) Reasonable Inference:* Manual document review channels are maintained to handle registration edge cases that cannot be processed via self-service web validation.
 * *(c) What Remains Unknown:* Average response latency, resolution rates, or data retention policies of messaging-based support desks.
 * *Affected Group:* Motorists experiencing registration errors, support desk operators.
@@ -468,8 +468,8 @@ This pass evaluates the human, organizational, and technical actors within the N
 +-----------------------+-------------------------+-----------------------+----------------------+-----------------------------+
 | Government            | Tier-1/Tier-2 support;  | Current GIC Portal    | Availability of      | Documented Support (E):     |
 | Information Center    | manages official        | Notices (2026).       | support personnel;   | WhatsApp support desk       |
-| (GIC - 1919)          | WhatsApp resolution     |         | verification of user | (`076 019 1919`)|
-|                       | desk (`076 019 1919`).  |                       | submitted documents. | UNKNOWN: Capacity, agent    |
+| (GIC - 1919)          | WhatsApp resolution     |         | verification of user | (`076 013 9886`)|
+|                       | desk (`076 013 9886`).  |                       | submitted documents. | UNKNOWN: Capacity, agent    |
 |                       |           |                       |        | counts, exact response time |
 |                       |                         |                       |                      | backlogs, admin rights. (RH)|
 +-----------------------+-------------------------+-----------------------+----------------------+-----------------------------+
@@ -523,7 +523,7 @@ This pass evaluates the human, organizational, and technical actors within the N
 |                     |                       |                                  | causes unknown.  |
 +---------------------+-----------------------+----------------------------------+------------------+
 | Escalation & Support| Citizen <-> GIC L2    | Document submission via WhatsApp | E: Hotline &     |
-| Desk                | WhatsApp Desk         | (`076 019 1919`) for support.    | WhatsApp active  |
+| Desk                | WhatsApp Desk         | (`076 013 9886`) for support.    | WhatsApp active  |
 |                     |                       |                    |. RH: Response|
 |                     |                       |                                  | latency unknown. |
 +---------------------+-----------------------+----------------------------------+------------------+
@@ -550,7 +550,7 @@ This pass evaluates the human, organizational, and technical actors within the N
 
 #### **Theme C: Support & Escalation Load**
 
-* **Evidence:** Official government notices document the establishment of a WhatsApp support desk (`076 019 1919`) for resolving registration errors and vehicle document verification.
+* **Evidence:** Official government notices document the establishment of a WhatsApp support desk (`076 013 9886`) for resolving registration errors and vehicle document verification.
 * **Inference:** Manual support channels are required to handle edge cases that fail automated self-service validation.
 * **Unknowns:** Operational capacity per agent, response latency, daily ticket volume, internal backend administrative permissions.
 * **Research Implication:** Quantitative sampling of escalation response times is necessary to evaluate the reliability of assisted registration.

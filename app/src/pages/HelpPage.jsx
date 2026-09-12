@@ -1,15 +1,19 @@
+import { useState } from "react";
+
 import {
-  Search,
-  MessageCircle,
   ChevronRight,
   QrCode,
   Car,
   Fuel,
   UserRound,
+  Phone,
+  ClipboardList,
+  HelpCircle,
+  MessageCircle,
+  ShieldAlert,
 } from "lucide-react";
 
 import Card from "../components/Card";
-import Alert from "../components/Alert";
 import PageHeader from "../components/PageHeader";
 
 import { support } from "../data/mockData";
@@ -18,30 +22,71 @@ const topics = [
   {
     id: "registration",
     title: "Registration",
-    description:
-      "Registration and vehicle information",
-    icon: Car,
-  },
-  {
-    id: "ownership",
-    title: "Ownership or contact change",
-    description:
-      "What to do when your vehicle or contact information changes",
-    icon: UserRound,
+    icon: ClipboardList,
+    navigateTo: "registration",
   },
   {
     id: "qr",
-    title: "QR verification",
-    description:
-      "Problems presenting or verifying your QR pass",
+    title: "QR Pass",
     icon: QrCode,
+    navigateTo: "qr",
   },
   {
     id: "allocation",
-    title: "Fuel allocation",
-    description:
-      "Understand allocation and reset information",
+    title: "Fuel Allocation",
     icon: Fuel,
+    navigateTo: "allocation",
+  },
+  {
+    id: "vehicle",
+    title: "Vehicle Information",
+    icon: Car,
+    navigateTo: "vehicle",
+  },
+  {
+    id: "ownership",
+    title: "Ownership Change",
+    icon: UserRound,
+    navigateTo: "ownership",
+  },
+  {
+    id: "contact",
+    title: "Contact Number Change",
+    icon: Phone,
+    navigateTo: "ownership",
+  },
+];
+
+const faqs = [
+  {
+    id: "register",
+    title: "How do I register my vehicle?",
+    answer:
+      "Select Register from the home screen, enter your vehicle registration number, category, and identity details, then submit. Verification may take 1–2 working days.",
+  },
+  {
+    id: "qr-help",
+    title: "My QR Pass is not working. What should I do?",
+    answer:
+      "Ensure your screen brightness is at maximum. If the issue persists, contact support on 076 013 9886.",
+  },
+  {
+    id: "allocation-reset",
+    title: "When does my fuel allocation reset?",
+    answer:
+      "Your weekly fuel allocation resets every Saturday at midnight. Unused allocation does not carry over.",
+  },
+  {
+    id: "ownership-help",
+    title: "How do I change my vehicle ownership?",
+    answer:
+      "Go to Vehicle → Update Vehicle → Ownership Changed. You will need to visit a service centre with the required documents.",
+  },
+  {
+    id: "support-contact",
+    title: "Who should I contact for support?",
+    answer:
+      "Call or WhatsApp 076 013 9886 for support. Official support hours are 8 AM – 5 PM on working days.",
   },
 ];
 
@@ -49,130 +94,170 @@ export default function HelpPage({
   onBack,
   onNavigate,
 }) {
+  const [openFaq, setOpenFaq] = useState(null);
+
   return (
     <div className="page">
+
       <PageHeader
-        title="Help & support"
-        subtitle="Find guidance or contact official support."
+        title="Help & Support"
+        subtitle=""
         onBack={onBack}
       />
 
       <section>
-        <div className="search-box">
-          <Search size={20} />
-
-          <input
-            type="text"
-            placeholder="Search help topics"
-            aria-label="Search help topics"
-          />
-        </div>
-      </section>
-
-      <section>
         <h2 className="section-title">
-          Common topics
+          Common Topics
         </h2>
 
         <Card>
-          {topics.map((topic) => {
-            const Icon = topic.icon;
+          <div className="help-topic-list">
+            {topics.map((topic) => {
+              const Icon = topic.icon;
 
-            return (
-              <button
-                className="list-action"
-                key={topic.id}
-                onClick={() => {
-                  if (topic.id === "registration") {
-                    onNavigate("registration");
-                  } else if (topic.id === "ownership") {
-                    onNavigate("ownership");
-                  } else if (topic.id === "qr") {
-                    onNavigate("qr");
-                  } else if (topic.id === "allocation") {
-                    onNavigate("allocation");
+              return (
+                <button
+                  className="help-topic"
+                  key={topic.id}
+                  onClick={() =>
+                    onNavigate(topic.navigateTo)
                   }
-                }}
-              >
-                <div className="list-action-icon">
-                  <Icon size={20} />
-                </div>
+                >
+                  <div className="help-topic-icon">
+                    <Icon size={20} />
+                  </div>
 
-                <div className="list-action-content">
-                  <strong>
+                  <span className="help-topic-title">
                     {topic.title}
-                  </strong>
-
-                  <span>
-                    {topic.description}
                   </span>
-                </div>
 
-                <ChevronRight size={20} />
-              </button>
-            );
-          })}
+                  <ChevronRight size={19} />
+                </button>
+              );
+            })}
+          </div>
         </Card>
       </section>
 
       <section>
         <h2 className="section-title">
-          Official support
+          Frequently Asked Questions
         </h2>
 
         <Card>
-          <div className="support-heading">
+          <div className="faq-list">
+            {faqs.map((faq) => {
+              const isOpen = openFaq === faq.id;
+
+              return (
+                <div
+                  className={`faq-item ${
+                    isOpen ? "faq-item-open" : ""
+                  }`}
+                  key={faq.id}
+                >
+
+                  <button
+                    className="faq-question"
+                    onClick={() =>
+                      setOpenFaq(
+                        isOpen ? null : faq.id
+                      )
+                    }
+                    aria-expanded={isOpen}
+                  >
+                    <div className="faq-icon">
+                      <HelpCircle size={19} />
+                    </div>
+
+                    <span>
+                      {faq.title}
+                    </span>
+
+                    <ChevronRight
+                      size={19}
+                      className={
+                        isOpen
+                          ? "faq-chevron-open"
+                          : ""
+                      }
+                    />
+                  </button>
+
+                  {isOpen && (
+                    <div className="faq-answer">
+                      {faq.answer}
+                    </div>
+                  )}
+
+                </div>
+              );
+            })}
+          </div>
+        </Card>
+      </section>
+
+      <section>
+        <h2 className="section-title">
+          Official Support
+        </h2>
+
+        <Card>
+          <div className="official-support">
+
             <div className="support-icon">
               <MessageCircle size={25} />
             </div>
 
-            <div>
-              <span className="label">
-                WhatsApp support
+            <div className="official-support-content">
+
+              <strong>
+                {support.whatsapp}
+              </strong>
+
+              <span>
+                WhatsApp & Call · 8 AM – 5 PM
               </span>
 
-              <h2>
-                {support.whatsapp}
-              </h2>
             </div>
+
           </div>
-
-          <p>
-            Use the currently published support
-            channel when you need assistance with
-            the service.
-          </p>
-
-          <button
-            className="button button-primary button-full"
-            onClick={() => { }}
-          >
-            <MessageCircle size={18} />
-            Contact support
-          </button>
         </Card>
       </section>
 
       <section>
-        <Alert type="warning">
-          <strong>
-            Protect your information
-          </strong>
+        <div className="fraud-warning">
 
-          <p>
-            Do not share passwords, OTPs or other
-            sensitive credentials through unofficial
-            channels.
-          </p>
-        </Alert>
+          <div className="fraud-warning-icon">
+            <ShieldAlert size={20} />
+          </div>
+
+          <div>
+
+            <strong>
+              Fraud Warning
+            </strong>
+
+            <p>
+              The National Fuel Pass does not ask
+              for passwords, PINs, or payment via
+              SMS or phone. Report suspicious
+              contacts to{" "}
+              <strong>
+                {support.whatsapp}
+              </strong>.
+            </p>
+
+          </div>
+
+        </div>
       </section>
 
       <div className="prototype-notice">
-        This prototype provides a simplified support
-        experience. Internal support workflows and
-        escalation systems are not represented because
-        they have not been established by the research.
+        ⚠ Academic prototype — not an official
+        government application
       </div>
+
     </div>
   );
 }

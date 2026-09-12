@@ -101,7 +101,7 @@ Where verification is unavailable, the source or claim is marked **UNKNOWN** rat
   * Current Saturday 12:00 AM quota reset information.
   * Current guidance relating to ownership changes.
   * Current guidance relating to lost contact numbers.
-  * Current WhatsApp support number: 076 019 1919.
+  * Current WhatsApp support number: 076 013 9886.
   * Fraud/misuse warnings.
 * **Evidence Classification:** E
 * **Notes:** This is a current source. It must not be used to establish historical 2022 behavior. The current portal explicitly states that Fuel Pass quotas reset at midnight on Saturday and provides current support guidance.

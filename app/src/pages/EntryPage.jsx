@@ -1,74 +1,95 @@
-import { LogIn, UserPlus } from "lucide-react";
+import {
+  Globe,
+  LogIn,
+  UserPlus,
+} from "lucide-react";
 
 import Button from "../components/Button";
-import Card from "../components/Card";
 
 export default function EntryPage({ onSignIn, onRegister }) {
   return (
-    <div className="flow-page">
-      <div className="flow-header">
-        <span className="prototype-label">
-          NATIONAL FUEL PASS
-        </span>
+    <div className="entry-page-wrapper">
+      <div className="entry-page">
+        <div className="entry-header">
+          <div className="entry-brand">
+            <div className="entry-brand-icon">
+              <Globe size={28} />
+            </div>
 
-        <h1>Welcome</h1>
-
-        <p>
-          Access your fuel allocation or register your
-          vehicle to get started.
-        </p>
-      </div>
-
-      <div className="entry-options">
-        <Card>
-          <div className="entry-icon">
-            <LogIn size={28} />
+            <span>National Fuel Pass</span>
           </div>
 
-          <h2>Sign In</h2>
+          <h1>Welcome</h1>
 
           <p>
-            Already registered? Sign in to view your
-            vehicle, QR pass and fuel allocation.
+            Access your fuel allocation or register your
+            vehicle to get started.
           </p>
+        </div>
 
-          <Button
-            fullWidth
-            onClick={onSignIn}
-          >
-            Sign In
-          </Button>
-        </Card>
+        <div className="entry-options">
+          <section className="entry-option">
+            <div className="entry-option-top">
+              <div className="entry-icon">
+                <LogIn size={22} />
+              </div>
 
-        <Card>
-          <div className="entry-icon secondary">
-            <UserPlus size={28} />
-          </div>
+              <div className="entry-option-heading">
+                <h2>Sign In</h2>
 
-          <h2>Register</h2>
+                <span>For registered users</span>
+              </div>
+            </div>
+
+            <p>
+              Already registered? Sign in to view your
+              vehicle, QR pass, and fuel allocation.
+            </p>
+
+            <Button
+              fullWidth
+              onClick={onSignIn}
+            >
+              Sign In
+            </Button>
+          </section>
+
+          <section className="entry-option">
+            <div className="entry-option-top">
+              <div className="entry-icon secondary">
+                <UserPlus size={22} />
+              </div>
+
+              <div className="entry-option-heading">
+                <h2>Register</h2>
+
+                <span>For new users</span>
+              </div>
+            </div>
+
+            <p>
+              Register your vehicle and create your Fuel Pass
+              profile to get started.
+            </p>
+
+            <Button
+              fullWidth
+              onClick={onRegister}
+            >
+              Register Vehicle
+            </Button>
+          </section>
+        </div>
+
+        <div className="prototype-notice entry-prototype-notice">
+          <strong>Academic Prototype</strong>
 
           <p>
-            Register a vehicle and create your Fuel Pass
-            profile.
+            This is a simulated UX Engineering prototype.
+            It does not connect to the live National Fuel
+            Pass system.
           </p>
-
-          <Button
-            fullWidth
-            variant="secondary"
-            onClick={onRegister}
-          >
-            Register Vehicle
-          </Button>
-        </Card>
-      </div>
-
-      <div className="prototype-notice">
-        <strong>Academic Prototype</strong>
-        <p>
-          This is a simulated UX Engineering prototype.
-          It does not connect to the live National Fuel
-          Pass system.
-        </p>
+        </div>
       </div>
     </div>
   );

@@ -1,156 +1,176 @@
 import {
-  ChevronRight,
-  Fuel,
-  Car,
   QrCode,
+  Car,
+  Fuel,
+  History,
   HelpCircle,
+  ArrowRight,
+  AlertTriangle,
 } from "lucide-react";
 
 import Card from "../components/Card";
-import QRCard from "../components/QRCard";
-import { vehicle, allocation } from "../data/mockData";
+import StatusBadge from "../components/StatusBadge";
+import { vehicle, allocation, support } from "../data/mockData";
 
 export default function HomePage({ onNavigate }) {
-  const percentage =
-    (allocation.used / allocation.total) * 100;
-
   return (
-    <div className="page">
-      <div className="home-header">
-        <div>
-          <p className="eyebrow">
-            National Fuel Pass
-          </p>
+    <div className="home-page">
+      <header className="home-header">
+        <span className="home-brand">NATIONAL FUEL PASS</span>
 
-          <h1>Welcome back</h1>
+        <h1>Welcome back</h1>
 
-          <p>
-            Here is the current status of your vehicle.
-          </p>
+        <p>Academic Prototype · Demo Data</p>
+      </header>
+
+      <button
+        className="qr-pass-card"
+        onClick={() => onNavigate("qr")}
+      >
+        <div className="qr-pass-icon">
+          <QrCode size={28} strokeWidth={1.8} />
         </div>
-      </div>
 
-      <section>
-        <QRCard
-          vehicleNumber={vehicle.number}
-          onOpen={() => onNavigate("qr")}
-        />
-      </section>
+        <div className="qr-pass-content">
+          <strong>View QR Pass</strong>
+          <span>Show at the fuel station</span>
+        </div>
 
-      <section>
-        <Card>
-          <div className="section-heading">
-            <div>
-              <span className="label">
-                Vehicle
-              </span>
+        <ArrowRight size={20} />
+      </button>
 
-              <h2>{vehicle.number}</h2>
-            </div>
-
-            <Car size={24} />
+      <section className="dashboard-section">
+        <div className="section-heading">
+          <div>
+            <h2>Fuel Allocation</h2>
           </div>
 
-          <p>
-            {vehicle.category}
-          </p>
+          <StatusBadge status="Active" />
+        </div>
 
-          <button
-            className="text-action"
-            onClick={() => onNavigate("vehicle")}
-          >
-            View vehicle
-            <ChevronRight size={18} />
-          </button>
-        </Card>
-      </section>
+        <Card className="allocation-card">
+          <div className="allocation-main">
+            <span className="allocation-label">
+              Remaining this week
+            </span>
 
-      <section>
-        <Card>
-          <div className="section-heading">
-            <div>
-              <span className="label">
-                Fuel allocation
-              </span>
-
-              <h2>
-                {allocation.total - allocation.used} L remaining
-              </h2>
-            </div>
-
-            <Fuel size={24} />
+            <strong className="allocation-value">
+              {allocation.remaining} L
+            </strong>
           </div>
 
-          <div className="progress-container">
+          <div className="allocation-progress">
             <div
-              className="progress-bar"
+              className="allocation-progress-bar"
               style={{
-                width: `${percentage}%`,
+                width: `${(allocation.used / allocation.total) * 100
+                  }%`,
               }}
             />
           </div>
 
-          <div className="allocation-meta">
+          <div className="allocation-stats">
             <span>
-              {allocation.used} L used
+              Used: <strong>{allocation.used} L</strong>
             </span>
 
             <span>
-              {allocation.total} L total
+              Total: <strong>{allocation.total} L</strong>
             </span>
           </div>
 
+          <p className="allocation-reset">
+            Resets {allocation.reset}
+          </p>
+
           <button
-            className="text-action"
+            className="text-link"
             onClick={() => onNavigate("allocation")}
           >
-            View allocation
-            <ChevronRight size={18} />
+            View Allocation Details
+            <ArrowRight size={16} />
           </button>
         </Card>
       </section>
 
-      <section>
-        <h2 className="section-title">
-          Quick actions
-        </h2>
+      <section className="dashboard-section">
+        <div className="section-heading">
+          <h2>Registered Vehicle</h2>
+        </div>
+
+        <Card className="vehicle-summary-card">
+          <div className="vehicle-summary-top">
+            <div>
+              <strong className="vehicle-number">
+                {vehicle.number}
+              </strong>
+
+              <span className="vehicle-category">
+                {vehicle.category}
+              </span>
+            </div>
+
+            <StatusBadge status="Active" />
+          </div>
+
+          <button
+            className="text-link"
+            onClick={() => onNavigate("vehicle")}
+          >
+            Vehicle Details
+            <ArrowRight size={16} />
+          </button>
+        </Card>
+      </section>
+
+      <section className="dashboard-section">
+        <div className="section-heading">
+          <h2>Quick Actions</h2>
+        </div>
 
         <div className="quick-actions">
-          <button
-            onClick={() => onNavigate("qr")}
-          >
-            <QrCode size={22} />
+          <button onClick={() => onNavigate("qr")}>
+            <QrCode size={21} />
             <span>QR Pass</span>
           </button>
 
-          <button
-            onClick={() => onNavigate("vehicle")}
-          >
-            <Car size={22} />
+          <button onClick={() => onNavigate("vehicle")}>
+            <Car size={21} />
             <span>Vehicle</span>
           </button>
 
-          <button
-            onClick={() => onNavigate("allocation")}
-          >
-            <Fuel size={22} />
+          <button onClick={() => onNavigate("allocation")}>
+            <Fuel size={21} />
             <span>Allocation</span>
           </button>
 
-          <button
-            onClick={() => onNavigate("help")}
-          >
-            <HelpCircle size={22} />
-            <span>Help</span>
+          <button onClick={() => onNavigate("history")}>
+            <History size={21} />
+            <span>History</span>
           </button>
         </div>
       </section>
 
-      <div className="prototype-notice">
-        Academic UX Engineering prototype.
-        Data shown here is synthetic and is not
-        connected to the live National Fuel Pass
-        service.
+      <div className="service-notice">
+        <div className="service-notice-icon">
+          <HelpCircle size={18} />
+        </div>
+
+        <p>
+          <strong>Service Notice:</strong> Fuel allocation is
+          updated weekly. Contact support on{" "}
+          <strong>{support.whatsapp}</strong> if you
+          experience issues.
+        </p>
+      </div>
+
+      <div className="prototype-disclaimer">
+        <AlertTriangle size={16} />
+
+        <span>
+          Academic prototype — not an official government
+          application
+        </span>
       </div>
     </div>
   );

@@ -715,14 +715,14 @@ Provide contextual support without forcing users to search through unrelated inf
 │ Common topics               │
 │                             │
 │ Registration                │
-│ Ownership / contact change │
+│ Ownership / contact change  │
 │ QR verification             │
 │ Allocation                  │
 │ Account / access            │
 │                             │
 │ Still need help?            │
 │ Official support            │
-│ WhatsApp: 076 019 1919     │
+│ WhatsApp: 076 013 9886      │
 └─────────────────────────────┘
 ```
 

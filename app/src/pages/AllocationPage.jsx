@@ -1,12 +1,10 @@
 import {
   Fuel,
   Clock3,
-  Info,
   History,
 } from "lucide-react";
 
 import Card from "../components/Card";
-import Alert from "../components/Alert";
 import PageHeader from "../components/PageHeader";
 
 import {
@@ -18,35 +16,50 @@ export default function AllocationPage({
   onBack,
   onNavigate,
 }) {
+  const remaining =
+    allocation.total - allocation.used;
+
   const percentage =
     (allocation.used / allocation.total) * 100;
 
   return (
     <div className="page">
       <PageHeader
-        title="Fuel allocation"
-        subtitle="Understand your current allocation."
+        title="Fuel Allocation"
+        subtitle=""
         onBack={onBack}
       />
 
       <section>
-        <Card className="allocation-main-card">
-          <div className="allocation-icon">
-            <Fuel size={30} />
-          </div>
+        <div className="vehicle-status">
+          <strong>{vehicle.number}</strong>
 
+          <span className="status-badge">
+            Active
+          </span>
+        </div>
+      </section>
+
+      <section>
+        <Card className="allocation-main-card">
           <span className="label">
-            Remaining allocation
+            Remaining Allocation
           </span>
 
           <div className="allocation-number">
-            {allocation.total - allocation.used}
+            {remaining}
             <span>L</span>
           </div>
 
-          <p>
-            out of {allocation.total} L
-          </p>
+          <div className="allocation-summary">
+            <span>
+              {allocation.used} L used
+            </span>
+
+            <span>
+              {allocation.total} L total
+            </span>
+          </div>
 
           <div className="progress-container large">
             <div
@@ -56,67 +69,74 @@ export default function AllocationPage({
               }}
             />
           </div>
-
-          <div className="allocation-meta">
-            <span>
-              {allocation.used} L used
-            </span>
-
-            <span>
-              {allocation.total} L total
-            </span>
-          </div>
-        </Card>
-      </section>
-
-      <section>
-        <Card>
-          <div className="info-row">
-            <Clock3 size={22} />
-
-            <div>
-              <span className="label">
-                Allocation reset
-              </span>
-
-              <strong>
-                {allocation.reset}
-              </strong>
-
-              <p>
-                The current prototype reflects the
-                published reset timing used for the
-                current service.
-              </p>
-            </div>
-          </div>
         </Card>
       </section>
 
       <section>
         <h2 className="section-title">
-          Vehicle
+          Allocation Details
         </h2>
 
         <Card>
           <div className="detail-row">
-            <span>
-              Vehicle
-            </span>
+            <span>Total Allocation</span>
 
             <strong>
-              {vehicle.number}
+              {allocation.total} L
             </strong>
           </div>
 
           <div className="detail-row">
-            <span>
-              Category
-            </span>
+            <span>Used This Cycle</span>
+
+            <strong>
+              {allocation.used} L
+            </strong>
+          </div>
+
+          <div className="detail-row">
+            <span>Remaining</span>
+
+            <strong>
+              {remaining} L
+            </strong>
+          </div>
+
+          <div className="detail-row">
+            <span>Allocation Reset</span>
+
+            <strong>
+              {allocation.reset}
+            </strong>
+          </div>
+
+          <div className="detail-row">
+            <span>Vehicle Category</span>
 
             <strong>
               {vehicle.category}
             </strong>
+          </div>
+        </Card>
+      </section>
+
+      <section>
+        <Card className="allocation-info-card">
+          <div className="info-row">
+            <Clock3 size={22} />
+
+            <div>
+              <strong>
+                How allocation works
+              </strong>
+
+              <p>
+                Your weekly fuel allocation resets
+                every Saturday at midnight. Unused
+                allocation does not carry over to
+                the next cycle.
+              </p>
+            </div>
           </div>
         </Card>
       </section>
@@ -133,36 +153,16 @@ export default function AllocationPage({
 
             <div className="list-action-content">
               <strong>
-                Allocation history
+                View Transaction History
               </strong>
-
-              <span>
-                View previous prototype transactions
-              </span>
             </div>
           </button>
         </Card>
       </section>
 
-      <section>
-        <Alert type="info">
-          <strong>
-            About your allocation
-          </strong>
-
-          <p>
-            Allocation values displayed in this
-            prototype are synthetic demonstration
-            data. They do not represent your actual
-            account balance.
-          </p>
-        </Alert>
-      </section>
-
       <div className="prototype-notice">
-        Academic UX Engineering prototype.
-        Allocation information is simulated and
-        does not connect to a live government system.
+        ⚠ Academic prototype — not an official
+        government application
       </div>
     </div>
   );

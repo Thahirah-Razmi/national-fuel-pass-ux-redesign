@@ -1,14 +1,11 @@
 import {
-  Car,
-  Phone,
   UserRound,
-  AlertTriangle,
+  Phone,
   ChevronRight,
 } from "lucide-react";
 
 import Card from "../components/Card";
 import StatusBadge from "../components/StatusBadge";
-import Alert from "../components/Alert";
 import PageHeader from "../components/PageHeader";
 
 import { vehicle } from "../data/mockData";
@@ -21,47 +18,19 @@ export default function VehiclePage({
     <div className="page">
       <PageHeader
         title="Vehicle"
-        subtitle="View your registered vehicle information."
+        subtitle=""
         onBack={onBack}
       />
 
       <section>
-        <Card>
-          <div className="vehicle-title">
-            <div className="vehicle-icon">
-              <Car size={28} />
-            </div>
-
-            <div>
-              <span className="label">
-                Vehicle number
-              </span>
-
-              <h2>{vehicle.number}</h2>
-            </div>
-          </div>
-
-          <div className="vehicle-status">
-            <span className="label">
-              Registration status
-            </span>
-
-            <StatusBadge>
-              {vehicle.registrationStatus}
-            </StatusBadge>
-          </div>
-        </Card>
-      </section>
-
-      <section>
         <h2 className="section-title">
-          Vehicle details
+          Vehicle Information
         </h2>
 
         <Card>
           <div className="detail-row">
             <span>
-              Vehicle number
+              Registration No.
             </span>
 
             <strong>
@@ -71,7 +40,7 @@ export default function VehiclePage({
 
           <div className="detail-row">
             <span>
-              Vehicle category
+              Category
             </span>
 
             <strong>
@@ -81,7 +50,7 @@ export default function VehiclePage({
 
           <div className="detail-row">
             <span>
-              Registration status
+              Status
             </span>
 
             <StatusBadge>
@@ -93,7 +62,55 @@ export default function VehiclePage({
 
       <section>
         <h2 className="section-title">
-          Ownership & contact
+          Ownership Information
+        </h2>
+
+        <Card>
+          <div className="detail-row">
+            <span>
+              Document Type
+            </span>
+
+            <strong>
+              NIC
+            </strong>
+          </div>
+
+          <div className="detail-row">
+            <span>
+              NIC Number
+            </span>
+
+            <strong>
+              200012•••78
+            </strong>
+          </div>
+
+          <div className="detail-row">
+            <span>
+              Mobile
+            </span>
+
+            <strong>
+              071 •••• 5678
+            </strong>
+          </div>
+
+          <div className="detail-row">
+            <span>
+              Registered
+            </span>
+
+            <strong>
+              Sep 2026
+            </strong>
+          </div>
+        </Card>
+      </section>
+
+      <section>
+        <h2 className="section-title">
+          Update Information
         </h2>
 
         <Card>
@@ -107,12 +124,8 @@ export default function VehiclePage({
 
             <div className="list-action-content">
               <strong>
-                Ownership change
+                Ownership Change
               </strong>
-
-              <span>
-                Guidance for a vehicle ownership change
-              </span>
             </div>
 
             <ChevronRight size={20} />
@@ -128,13 +141,8 @@ export default function VehiclePage({
 
             <div className="list-action-content">
               <strong>
-                Contact number change
+                Change Contact Number
               </strong>
-
-              <span>
-                Guidance when your registered contact
-                number changes
-              </span>
             </div>
 
             <ChevronRight size={20} />
@@ -142,26 +150,18 @@ export default function VehiclePage({
         </Card>
       </section>
 
-      <section>
-        <Alert type="warning">
-          <strong>
-            Important
-          </strong>
-
-          <p>
-            Changes to vehicle or ownership information
-            may require re-registration or additional
-            verification according to the applicable
-            service process.
-          </p>
-        </Alert>
+      <section className="vehicle-support">
+        <p>
+          Need help with your vehicle information?
+          Contact support on{" "}
+          <strong>076 013 9886</strong>{" "}
+          or visit the Help section.
+        </p>
       </section>
 
       <div className="prototype-notice">
-        Vehicle information shown here is synthetic
-        prototype data and is not retrieved from the
-        Department of Motor Traffic or National Fuel
-        Pass systems.
+        ⚠ Academic prototype — not an official
+        government application
       </div>
     </div>
   );

@@ -1,13 +1,12 @@
 import {
   CheckCircle,
-  CalendarDays,
-  MapPin,
+  Fuel,
 } from "lucide-react";
 
 import Card from "../components/Card";
 import PageHeader from "../components/PageHeader";
 
-import { history } from "../data/mockData";
+import { history, vehicle } from "../data/mockData";
 
 export default function HistoryPage({
   onBack,
@@ -15,58 +14,84 @@ export default function HistoryPage({
   return (
     <div className="page">
       <PageHeader
-        title="Activity"
-        subtitle="View previous prototype transactions."
+        title="Transaction History"
+        subtitle=""
         onBack={onBack}
       />
 
-      <Card>
-        <div className="history-list">
-          {history.map((item) => (
-            <div
-              className="history-item"
-              key={item.id}
-            >
-              <div className="history-icon">
-                <CheckCircle size={20} />
-              </div>
+      <section className="history-summary">
+        <div className="history-vehicle">
+          <strong>{vehicle.number}</strong>
 
-              <div className="history-content">
-                <div className="history-title">
-                  <strong>
-                    {item.amount}
-                  </strong>
-
-                  <span className="history-status">
-                    {item.status}
-                  </span>
-                </div>
-
-                <div className="history-detail">
-                  <CalendarDays size={15} />
-
-                  <span>
-                    {item.date}
-                  </span>
-                </div>
-
-                <div className="history-detail">
-                  <MapPin size={15} />
-
-                  <span>
-                    {item.station}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
+          <span>
+            {history.length}{" "}
+            {history.length === 1
+              ? "record"
+              : "records"}
+          </span>
         </div>
-      </Card>
+
+        <p>
+          Demonstration data only. Transactions shown
+          are not real records.
+        </p>
+      </section>
+
+      <section>
+        <Card>
+          <div className="history-list">
+            {history.map((item) => (
+              <div
+                className="history-item"
+                key={item.id}
+              >
+                <div className="history-icon">
+                  <CheckCircle size={20} />
+                </div>
+
+                <div className="history-content">
+                  <div className="history-main">
+                    <div>
+                      <strong className="history-station">
+                        {item.station}
+                      </strong>
+
+                      <span className="history-date">
+                        {item.date}
+                      </span>
+                    </div>
+
+                    <div className="history-amount">
+                      <strong>
+                        {item.amount}
+                      </strong>
+
+                      <span className="history-status">
+                        {item.status}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </section>
+
+      <section className="history-end">
+        <strong>
+          No further records found.
+        </strong>
+
+        <p>
+          Future transactions will appear here
+          after scanning.
+        </p>
+      </section>
 
       <div className="prototype-notice">
-        Activity data shown here is synthetic
-        demonstration data. It does not represent
-        actual fuel transactions.
+        ⚠ Academic prototype — not an official
+        government application
       </div>
     </div>
   );

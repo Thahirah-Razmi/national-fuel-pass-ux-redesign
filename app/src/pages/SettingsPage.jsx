@@ -1,154 +1,147 @@
-import {
-  Globe,
-  Accessibility,
-  Info,
-  Check,
-} from "lucide-react";
-
-import Card from "../components/Card";
-import PageHeader from "../components/PageHeader";
+import { useState } from "react";
 
 export default function SettingsPage({ onBack }) {
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
+
   return (
-    <div className="page">
-      <PageHeader
-        title="Settings"
-        subtitle="Personalise your prototype experience."
-        onBack={onBack}
-      />
+    <div className="settings-page">
+      <header className="settings-header">
+        <button
+          type="button"
+          className="back-button"
+          onClick={onBack}
+        >
+          Back
+        </button>
 
-      <section>
-        <Card>
-          <div className="settings-section-header">
-            <Globe size={22} />
+        <h1>Settings</h1>
+      </header>
 
-            <div>
-              <h2>
-                Language
-              </h2>
+      <section className="settings-section">
+        <div className="settings-section-title">
+          <h2>Language</h2>
+        </div>
 
-              <p>
-                Choose your preferred interface language.
-              </p>
-            </div>
-          </div>
+        <div className="language-options">
+          <button
+            type="button"
+            className={`language-option ${
+              selectedLanguage === "English" ? "selected" : ""
+            }`}
+            onClick={() => setSelectedLanguage("English")}
+          >
+            <strong>English</strong>
+          </button>
 
-          <div className="language-options">
-            <button className="language-option selected">
-              <span>
-                English
-              </span>
+          <button
+            type="button"
+            className={`language-option ${
+              selectedLanguage === "Sinhala" ? "selected" : ""
+            }`}
+            onClick={() => setSelectedLanguage("Sinhala")}
+          >
+            <strong>සිංහල</strong>
+          </button>
 
-              <Check size={19} />
-            </button>
-
-            <button className="language-option">
-              <span>
-                සිංහල
-              </span>
-            </button>
-
-            <button className="language-option">
-              <span>
-                தமிழ்
-              </span>
-            </button>
-          </div>
-        </Card>
+          <button
+            type="button"
+            className={`language-option ${
+              selectedLanguage === "Tamil" ? "selected" : ""
+            }`}
+            onClick={() => setSelectedLanguage("Tamil")}
+          >
+            <strong>தமிழ்</strong>
+          </button>
+        </div>
       </section>
 
-      <section>
-        <Card>
-          <div className="settings-section-header">
-            <Accessibility size={22} />
+      <section className="settings-section">
+        <div className="settings-section-title">
+          <h2>Accessibility</h2>
+        </div>
 
-            <div>
-              <h2>
-                Accessibility
-              </h2>
+        <div className="settings-item">
+          <div>
+            <strong>Text Size</strong>
 
-              <p>
-                Accessibility options planned for
-                the prototype.
-              </p>
+            <div className="text-size-options">
+              <button className="text-size-option selected">
+                Normal
+              </button>
+
+              <button className="text-size-option">
+                Large
+              </button>
+
+              <button className="text-size-option">
+                Extra Large
+              </button>
             </div>
           </div>
+        </div>
 
-          <div className="settings-option">
-            <div>
-              <strong>
-                Larger text
-              </strong>
-
-              <span>
-                Increase text size for easier reading.
-              </span>
-            </div>
-
-            <button
-              className="toggle"
-              aria-label="Toggle larger text"
-            >
-              <span />
-            </button>
+        <div className="settings-toggle-row">
+          <div>
+            <strong>High Contrast</strong>
+            <span>
+              Increase text and border contrast
+            </span>
           </div>
 
-          <div className="settings-option">
-            <div>
-              <strong>
-                Reduced motion
-              </strong>
-
-              <span>
-                Reduce interface animations.
-              </span>
-            </div>
-
-            <button
-              className="toggle"
-              aria-label="Toggle reduced motion"
-            >
-              <span />
-            </button>
-          </div>
-        </Card>
+          <button
+            type="button"
+            className="settings-toggle"
+            aria-label="Toggle high contrast"
+          >
+            <span />
+          </button>
+        </div>
       </section>
 
-      <section>
-        <Card>
-          <div className="settings-section-header">
-            <Info size={22} />
+      <section className="settings-section">
+        <div className="settings-section-title">
+          <h2>Notifications</h2>
+        </div>
 
-            <div>
-              <h2>
-                About this prototype
-              </h2>
-
-              <p>
-                National Fuel Pass UX Redesign
-              </p>
-            </div>
+        <div className="settings-toggle-row">
+          <div>
+            <strong>Allocation Reminders</strong>
+            <span>
+              Notify when allocation is low
+            </span>
           </div>
 
-          <div className="about-content">
-            <p>
-              This is an academic UX Engineering
-              prototype exploring improvements to
-              clarity, reliability, recovery,
-              accessibility and trust.
-            </p>
+          <button
+            type="button"
+            className="settings-toggle"
+            aria-label="Toggle allocation reminders"
+          >
+            <span />
+          </button>
+        </div>
+      </section>
 
-            <p>
-              It is not an official replacement for
-              the National Fuel Pass service.
-            </p>
+      <section className="settings-section about-section">
+        <div className="settings-section-title">
+          <h2>About This Prototype</h2>
+        </div>
 
-            <p>
-              All account and transaction information
-              displayed in the prototype is synthetic.
-            </p>
-          </div>
-        </Card>
+        <p>
+          This is an academic UX Engineering prototype
+          created to explore a redesign of the National Fuel
+          Pass service.
+        </p>
+
+        <p>
+          It is not an official government application.
+          All data is synthetic and for demonstration
+          purposes only.
+        </p>
+
+        <div className="version-row">
+          <span>Version</span>
+          <strong>Prototype 0.1</strong>
+        </div>
       </section>
     </div>
   );

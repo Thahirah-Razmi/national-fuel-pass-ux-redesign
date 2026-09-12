@@ -41,8 +41,8 @@ export default function OwnershipPage({
 
           <h1>
             {isOwnership
-              ? "Ownership change"
-              : "Contact number change"}
+              ? "Ownership Change Request"
+              : "Contact Number Change Request"}
           </h1>
 
           <p>
@@ -159,8 +159,7 @@ export default function OwnershipPage({
         <h1>What has changed?</h1>
 
         <p>
-          Choose the situation that best describes your
-          account.
+          Select the type of update you need to make to your vehicle registration.
         </p>
       </div>
 
@@ -176,10 +175,10 @@ export default function OwnershipPage({
           <FileText size={24} />
 
           <div>
-            <strong>Ownership changed</strong>
+            <strong>Ownership Change Request</strong>
 
             <p>
-              The vehicle has a new owner.
+              The vehicle has been sold or transferred to a new owner.
             </p>
           </div>
         </button>
@@ -195,11 +194,10 @@ export default function OwnershipPage({
           <Smartphone size={24} />
 
           <div>
-            <strong>Contact number changed</strong>
+            <strong>Contact Number Changed</strong>
 
             <p>
-              You no longer use the number linked to
-              the service.
+              Your registered mobile number has been changed.
             </p>
           </div>
         </button>

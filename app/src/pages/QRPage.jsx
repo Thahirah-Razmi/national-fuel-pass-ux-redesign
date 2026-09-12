@@ -265,6 +265,40 @@ export default function QRPage({ onBack, onNavigate }) {
         </div>
       </Card>
 
+      <Card>
+        <h2>Verification Guidance</h2>
+
+        <div className="guidance-list">
+          <div className="guidance-item">
+            <span className="guidance-number">1</span>
+
+            <div>
+              <strong>Present this QR to the station operator</strong>
+            </div>
+          </div>
+
+          <div className="guidance-item">
+            <span className="guidance-number">2</span>
+
+            <div>
+              <strong>
+                The operator will scan and verify your allocation
+              </strong>
+            </div>
+          </div>
+
+          <div className="guidance-item">
+            <span className="guidance-number">3</span>
+
+            <div>
+              <strong>
+                You will receive a confirmation once scanned
+              </strong>
+            </div>
+          </div>
+        </div>
+      </Card>
+
       <div className="prototype-notice">
         <strong>Academic Prototype</strong>
 

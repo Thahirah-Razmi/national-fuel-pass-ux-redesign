@@ -1,302 +1,494 @@
 import { useState } from "react";
-import { ArrowLeft, CheckCircle, AlertTriangle } from "lucide-react";
+import {
+  ArrowLeft,
+  Check,
+  Pencil,
+  CircleCheck,
+} from "lucide-react";
 
 import Button from "../components/Button";
-import Card from "../components/Card";
-import Alert from "../components/Alert";
 
-export default function RegistrationPage({ onBack, onComplete }) {
+export default function RegistrationPage({
+  onBack,
+  onComplete,
+}) {
   const [step, setStep] = useState(1);
 
   const [vehicleNumber, setVehicleNumber] = useState("");
   const [vehicleCategory, setVehicleCategory] = useState("");
+
+  const [identityType, setIdentityType] = useState("NIC");
   const [identityNumber, setIdentityNumber] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
 
-  const [error, setError] = useState("");
+  const [confirmed, setConfirmed] = useState(false);
 
-  function nextStep() {
-    setError("");
-
-    if (step === 1) {
-      if (!vehicleNumber.trim()) {
-        setError("Please enter your vehicle number.");
-        return;
-      }
-
-      if (!vehicleCategory) {
-        setError("Please select your vehicle category.");
-        return;
-      }
-    }
-
-    if (step === 2) {
-      if (!identityNumber.trim()) {
-        setError("Please enter your identity document number.");
-        return;
-      }
-    }
-
-    setStep(step + 1);
+  function handleVehicleContinue() {
+    if (!vehicleNumber || !vehicleCategory) return;
+    setStep(2);
   }
 
-  function previousStep() {
-    setError("");
-
-    if (step === 1) {
-      onBack();
-      return;
-    }
-
-    setStep(step - 1);
+  function handleIdentityContinue() {
+    if (!identityNumber || !mobileNumber) return;
+    setStep(3);
   }
 
-  function completeRegistration() {
+  function handleSubmit() {
+    if (!confirmed) return;
     setStep(4);
+  }
+
+  function maskDocumentNumber(value) {
+    if (!value) return "—";
+
+    if (identityType === "NIC") {
+      if (value.length <= 5) return value;
+
+      return `${value.slice(0, 6)}•••${value.slice(-2)}`;
+    }
+
+    if (value.length <= 4) return value;
+
+    return `${value.slice(0, 3)}•••${value.slice(-2)}`;
+  }
+
+  function maskMobileNumber(value) {
+    if (!value) return "—";
+
+    if (value.length < 7) return value;
+
+    return `${value.slice(0, 3)} •••• ${value.slice(-3)}`;
   }
 
   if (step === 4) {
     return (
-      <div className="flow-page">
-        <div className="success-state">
-          <CheckCircle size={64} />
+      <div className="registration-page">
+        <div className="registration-success">
+          <div className="success-icon">
+            <CircleCheck size={52} strokeWidth={1.8} />
+          </div>
 
-          <h1>Registration submitted</h1>
+          <h1>Registration Submitted</h1>
 
           <p>
-            Your registration has been simulated successfully
-            for this prototype.
+            Your vehicle registration has been submitted
+            successfully.
           </p>
+
+          <section className="registered-vehicle-card">
+            <div className="registered-vehicle-header">
+              <h2>Registered Vehicle</h2>
+            </div>
+
+            <div className="registered-vehicle-details">
+              <div className="review-row">
+                <span>Registration No.</span>
+                <strong>{vehicleNumber || "ABC-1234"}</strong>
+              </div>
+
+              <div className="review-row">
+                <span>Category</span>
+                <strong>
+                  {vehicleCategory || "Motor Car"}
+                </strong>
+              </div>
+
+              <div className="review-row status-row">
+                <span>Status</span>
+
+                <span className="pending-status">
+                  Pending Verification
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <div className="next-steps">
+            <strong>Next steps:</strong>
+
+            <p>
+              Your fuel pass will be activated once your
+              details are verified. You will receive an SMS
+              notification. This may take 1–2 working days.
+            </p>
+          </div>
+
+          <Button
+            variant="primary"
+            fullWidth
+            onClick={onComplete}
+          >
+            Continue to Home
+          </Button>
         </div>
-
-        <Card>
-          <div className="detail-row">
-            <span>Vehicle</span>
-            <strong>{vehicleNumber}</strong>
-          </div>
-
-          <div className="detail-row">
-            <span>Category</span>
-            <strong>{vehicleCategory}</strong>
-          </div>
-
-          <div className="detail-row">
-            <span>Status</span>
-            <strong>Active</strong>
-          </div>
-        </Card>
-
-        <Alert
-          type="info"
-          title="Prototype simulation"
-        >
-          No real registration has been created. The data
-          shown here is only for demonstrating the proposed
-          user experience.
-        </Alert>
-
-        <Button fullWidth onClick={onComplete}>
-          Continue to Fuel Pass
-        </Button>
       </div>
     );
   }
 
   return (
-    <div className="flow-page">
+    <div className="registration-page">
       <button
         className="back-button"
-        onClick={previousStep}
+        onClick={() => {
+          if (step === 1) {
+            onBack();
+          } else {
+            setStep(step - 1);
+          }
+        }}
       >
-        <ArrowLeft size={20} />
-        Back
+        <ArrowLeft size={18} />
+        <span>Back</span>
       </button>
 
-      <div className="flow-header">
-        <span className="prototype-label">
-          REGISTRATION
-        </span>
-
-        <h1>Register your vehicle</h1>
-
-        <p>
-          Enter the information needed to set up your
-          Fuel Pass profile.
-        </p>
-      </div>
-
-      <div className="step-indicator">
-        <span className={step >= 1 ? "active" : ""}>1</span>
-        <span className={step >= 2 ? "active" : ""}>2</span>
-        <span className={step >= 3 ? "active" : ""}>3</span>
-      </div>
-
-      {error && (
-        <Alert
-          type="warning"
-          title="Check your information"
-        >
-          {error}
-        </Alert>
-      )}
-
       {step === 1 && (
-        <Card>
-          <h2>Vehicle information</h2>
+        <>
+          <span className="prototype-label">
+            REGISTRATION
+          </span>
 
-          <div className="form">
+          <h1>Register Vehicle</h1>
+
+          <p className="registration-description">
+            Your vehicle registration number and category are
+            required to link your fuel allocation.
+          </p>
+
+          <p className="step-title">Step 1 of 3</p>
+
+          <div className="registration-form">
             <div className="form-group">
-              <label htmlFor="vehicleNumber">
-                Vehicle number
+              <label htmlFor="vehicle-number">
+                Vehicle Registration Number
               </label>
 
               <input
-                id="vehicleNumber"
+                id="vehicle-number"
+                type="text"
                 value={vehicleNumber}
                 onChange={(e) =>
-                  setVehicleNumber(e.target.value)
+                  setVehicleNumber(e.target.value.toUpperCase())
                 }
-                placeholder="e.g. ABC-1234"
+                placeholder="Enter registration number"
               />
+
+              <span className="input-help">
+                Enter exactly as shown on your registration
+                certificate.
+              </span>
             </div>
 
             <div className="form-group">
-              <label htmlFor="vehicleCategory">
-                Vehicle category
+              <label htmlFor="vehicle-category">
+                Vehicle Category
               </label>
 
               <select
-                id="vehicleCategory"
+                id="vehicle-category"
                 value={vehicleCategory}
                 onChange={(e) =>
                   setVehicleCategory(e.target.value)
                 }
               >
-                <option value="">
-                  Select category
-                </option>
-
-                <option value="Motor Car">
-                  Motor Car
-                </option>
-
-                <option value="Motorcycle">
-                  Motorcycle
-                </option>
-
-                <option value="Three Wheeler">
-                  Three Wheeler
-                </option>
-
-                <option value="Van">
-                  Van
-                </option>
-
+                <option value="">Select…</option>
+                <option value="Motor Car">Motor Car</option>
+                <option value="Motorcycle">Motorcycle</option>
+                <option value="Van">Van</option>
                 <option value="Motor Lorry">
                   Motor Lorry
                 </option>
+                <option value="Bus">Bus</option>
+                <option value="Three Wheeler">
+                  Three Wheeler
+                </option>
               </select>
-            </div>
 
-            <Button
-              fullWidth
-              onClick={nextStep}
-            >
-              Continue
-            </Button>
-          </div>
-        </Card>
-      )}
-
-      {step === 2 && (
-        <Card>
-          <h2>Identity information</h2>
-
-          <p className="card-description">
-            Enter the applicable identity document number
-            for this registration.
-          </p>
-
-          <div className="form">
-            <div className="form-group">
-              <label htmlFor="identityNumber">
-                Identity document number
-              </label>
-
-              <input
-                id="identityNumber"
-                value={identityNumber}
-                onChange={(e) =>
-                  setIdentityNumber(e.target.value)
-                }
-                placeholder="Enter document number"
-              />
-            </div>
-
-            <div className="privacy-warning">
-              <AlertTriangle size={18} />
-
-              <span>
-                Use synthetic information only when
-                demonstrating this academic prototype.
+              <span className="input-help">
+                Select the category that matches your vehicle
+                type.
               </span>
             </div>
 
-            <Button
-              fullWidth
-              onClick={nextStep}
-            >
-              Continue
-            </Button>
+            <div className="registration-actions">
+              <Button
+                variant="primary"
+                fullWidth
+                onClick={handleVehicleContinue}
+                disabled={!vehicleNumber || !vehicleCategory}
+              >
+                Continue
+              </Button>
+
+              <Button
+                variant="secondary"
+                fullWidth
+                onClick={onBack}
+              >
+                Back
+              </Button>
+            </div>
           </div>
-        </Card>
+        </>
+      )}
+
+      {step === 2 && (
+        <>
+          <span className="prototype-label">
+            REGISTRATION
+          </span>
+
+          <h1>Identity Information</h1>
+
+          <p className="registration-description">
+            Your identity information is required to verify
+            vehicle ownership.
+          </p>
+
+          <p className="step-title">Step 2 of 3</p>
+
+          <div className="registration-form">
+            <div className="form-group">
+              <label>Identity Document Type</label>
+
+              <div className="identity-options">
+                <button
+                  type="button"
+                  className={`identity-option ${identityType === "NIC" ? "selected" : ""
+                    }`}
+                  onClick={() => setIdentityType("NIC")}
+                >
+                  <span className="identity-radio">
+                    {identityType === "NIC" && (
+                      <span />
+                    )}
+                  </span>
+
+                  <strong>NIC</strong>
+                </button>
+
+                <button
+                  type="button"
+                  className={`identity-option ${identityType === "Passport"
+                    ? "selected"
+                    : ""
+                    }`}
+                  onClick={() =>
+                    setIdentityType("Passport")
+                  }
+                >
+                  <span className="identity-radio">
+                    {identityType === "Passport" && (
+                      <span />
+                    )}
+                  </span>
+
+                  <strong>Passport</strong>
+                </button>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="identity-number">
+                {identityType === "NIC"
+                  ? "NIC Number"
+                  : "Passport Number"}
+              </label>
+
+              <input
+                id="identity-number"
+                type="text"
+                value={identityNumber}
+                onChange={(e) =>
+                  setIdentityNumber(
+                    e.target.value.toUpperCase()
+                  )
+                }
+                placeholder={
+                  identityType === "NIC"
+                    ? "Enter NIC number"
+                    : "Enter passport number"
+                }
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="mobile-number">
+                Mobile Number
+              </label>
+
+              <input
+                id="mobile-number"
+                type="tel"
+                value={mobileNumber}
+                onChange={(e) =>
+                  setMobileNumber(e.target.value)
+                }
+                placeholder="Enter mobile number"
+              />
+
+              <span className="input-help">
+                A mobile number may be used for important
+                registration and service notifications.
+              </span>
+            </div>
+
+            <div className="alert alert-warning">
+              <strong>Identity verification</strong>
+              <span>
+                Please make sure your identity information
+                matches your official document.
+              </span>
+            </div>
+
+            <div className="registration-actions">
+              <Button
+                variant="primary"
+                fullWidth
+                onClick={handleIdentityContinue}
+                disabled={!identityNumber || !mobileNumber}
+              >
+                Continue
+              </Button>
+
+              <Button
+                variant="secondary"
+                fullWidth
+                onClick={() => setStep(1)}
+              >
+                Back
+              </Button>
+            </div>
+          </div>
+        </>
       )}
 
       {step === 3 && (
-        <Card>
-          <h2>Review registration</h2>
+        <>
+          <span className="prototype-label">
+            REGISTRATION
+          </span>
 
-          <div className="review-list">
-            <div className="detail-row">
-              <span>Vehicle number</span>
-              <strong>{vehicleNumber}</strong>
-            </div>
+          <h1>Review Registration</h1>
 
-            <div className="detail-row">
-              <span>Category</span>
-              <strong>{vehicleCategory}</strong>
-            </div>
+          <p className="step-title">Step 3 of 3</p>
 
-            <div className="detail-row">
-              <span>Identity document</span>
-              <strong>••••••••</strong>
-            </div>
+          <p className="registration-description">
+            Please review your information carefully before
+            submitting.
+          </p>
+
+          <div className="review-sections">
+            <section className="review-section">
+              <div className="review-section-header">
+                <h2>Vehicle Details</h2>
+
+                <button
+                  type="button"
+                  className="edit-button"
+                  onClick={() => setStep(1)}
+                >
+                  <Pencil size={15} />
+                  Edit
+                </button>
+              </div>
+
+              <div className="review-details">
+                <div className="review-row">
+                  <span>Registration No.</span>
+                  <strong>{vehicleNumber || "—"}</strong>
+                </div>
+
+                <div className="review-row">
+                  <span>Category</span>
+                  <strong>
+                    {vehicleCategory || "—"}
+                  </strong>
+                </div>
+              </div>
+            </section>
+
+            <section className="review-section">
+              <div className="review-section-header">
+                <h2>Identity Information</h2>
+
+                <button
+                  type="button"
+                  className="edit-button"
+                  onClick={() => setStep(2)}
+                >
+                  <Pencil size={15} />
+                  Edit
+                </button>
+              </div>
+
+              <div className="review-details">
+                <div className="review-row">
+                  <span>Document Type</span>
+                  <strong>{identityType}</strong>
+                </div>
+
+                <div className="review-row">
+                  <span>
+                    {identityType === "NIC"
+                      ? "NIC Number"
+                      : "Passport Number"}
+                  </span>
+
+                  <strong>
+                    {maskDocumentNumber(identityNumber)}
+                  </strong>
+                </div>
+
+                <div className="review-row">
+                  <span>Mobile</span>
+
+                  <strong>
+                    {maskMobileNumber(mobileNumber)}
+                  </strong>
+                </div>
+              </div>
+            </section>
           </div>
 
-          <Alert
-            type="info"
-            title="Before continuing"
-          >
-            Please check that the information entered is
-            correct.
-          </Alert>
+          <label className="confirmation-checkbox">
+            <input
+              type="checkbox"
+              checked={confirmed}
+              onChange={(e) =>
+                setConfirmed(e.target.checked)
+              }
+            />
 
-          <Button
-            fullWidth
-            onClick={completeRegistration}
-          >
-            Submit Registration
-          </Button>
-        </Card>
+            <span className="checkbox-custom">
+              {confirmed && <Check size={14} />}
+            </span>
+
+            <span>
+              I confirm that the information provided is
+              accurate and belongs to me.
+            </span>
+          </label>
+
+          <div className="review-actions">
+            <Button
+              variant="primary"
+              fullWidth
+              onClick={handleSubmit}
+              disabled={!confirmed}
+            >
+              Submit Registration
+            </Button>
+
+            <Button
+              variant="secondary"
+              fullWidth
+              onClick={() => setStep(2)}
+            >
+              Back
+            </Button>
+          </div>
+        </>
       )}
-
-      <div className="prototype-notice">
-        <strong>Academic Prototype</strong>
-
-        <p>
-          Registration is simulated. No real government
-          records are accessed or modified.
-        </p>
-      </div>
     </div>
   );
 }

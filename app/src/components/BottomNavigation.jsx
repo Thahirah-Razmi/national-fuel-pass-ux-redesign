@@ -14,7 +14,7 @@ const items = [
   },
   {
     id: "qr",
-    label: "QR",
+    label: "QR Pass",
     icon: QrCode,
   },
   {
@@ -24,7 +24,7 @@ const items = [
   },
   {
     id: "allocation",
-    label: "Allocation",
+    label: "Fuel Allocation",
     icon: Fuel,
   },
   {

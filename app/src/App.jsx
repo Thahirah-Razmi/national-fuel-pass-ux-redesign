@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Settings } from "lucide-react";
 
 import AppShell from "./components/AppShell";
 
@@ -60,6 +59,7 @@ export default function App() {
         return (
           <LanguagePage
             onContinue={() => navigate("registration")}
+            onBack={() => navigate("entry")}
           />
         );
 
@@ -143,15 +143,6 @@ export default function App() {
 
   return (
     <div className="app">
-      {!hideNavigation && (
-        <button
-          className="settings-button"
-          onClick={() => setShowSettings(true)}
-          aria-label="Open settings"
-        >
-          <Settings size={21} />
-        </button>
-      )}
 
       {hideNavigation ? (
         <main className="app-content">
@@ -163,6 +154,7 @@ export default function App() {
             showSettings ? null : currentPage
           }
           onNavigate={navigate}
+          onSettings={() => setShowSettings(true)}
         >
           {renderPage()}
         </AppShell>

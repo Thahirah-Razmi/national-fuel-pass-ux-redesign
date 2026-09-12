@@ -7,6 +7,7 @@ export const vehicle = {
 export const allocation = {
   total: 15,
   used: 5,
+  remaining: 10,
   reset: "Saturday at midnight",
 };
 
